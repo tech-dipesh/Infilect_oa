@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Titillium Web", sans-serif;
+  --color-primary: #131445;
+  --color-accent: #fdbd32;
+  --color-ink: #333333;
+  --color-muted: #525252;
+  --color-surface: #f7f7f7;
+  --color-danger: #b42318;
+  --radius-xs: 5px;
+  --radius-sm: 15px;
+  --radius-md: 20px;
+  --radius-lg: 40px;
+}
+
+@layer base {
+  body { background: var(--color-surface); color: var(--color-ink); font-size: 16px; line-height: 24px; }
+  button:not(:disabled), [role="button"]:not(:disabled), select, option, input[type="radio"], input[type="checkbox"] { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+  header :focus-visible { outline-color: var(--color-accent); }
+}
