@@ -1,0 +1,11 @@
+*.md
+!README.md
+*.zip
+.env
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+.ruff_cache
+node_modules
+dist
