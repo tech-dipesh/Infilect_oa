@@ -1,0 +1,14 @@
+Metadata-Version: 2.4
+Name: api
+Version: 0.1.0
+Requires-Python: >=3.12
+Requires-Dist: dj-database-url>=3.1.2
+Requires-Dist: django>=6.1.2
+Requires-Dist: django-cors-headers>=4.9.0
+Requires-Dist: django-filter>=26.2
+Requires-Dist: djangorestframework>=3.18.3
+Requires-Dist: djangorestframework-simplejwt>=5.5.1
+Requires-Dist: drf-spectacular>=0.30.0
+Requires-Dist: gunicorn>=26.2.0
+Requires-Dist: psycopg[binary]>=3.3.6
+Requires-Dist: python-dotenv>=1.2.4

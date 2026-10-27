@@ -2,7 +2,14 @@ import pytest
 from rest_framework.test import APIClient
 
 pytestmark = pytest.mark.django_db
-product = {"name": "Air Zoom", "brand": "Nike", "category": "shoes", "description": "light running shoe", "price": "99.50"}
+product = {
+    "name": "Air Zoom",
+    "brand": "Nike",
+    "category": "shoes",
+    "description": "light running shoe",
+    "price": "99.50",
+    "image_url": "https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/e/b/eb661c9Nike-IM6368-400_1.jpg",
+}
 
 
 def signup(client, email="a@test.com"):
@@ -62,6 +69,8 @@ def test_product_validation():
     assert res.status_code == 400
     assert res.data["error"]["name"] == ["Please enter a product name"]
     assert res.data["error"]["price"] == ["Please enter a price greater than 0"]
+    noimage = client.post("/api/products/", {**product, "image_url": ""})
+    assert noimage.data["error"]["image_url"] == ["Please enter a product image url"]
 
 
 def test_search_filter_sort_and_pagination():

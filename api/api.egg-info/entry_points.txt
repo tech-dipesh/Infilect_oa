@@ -1,0 +1,6 @@
+[console_scripts]
+dev = cli:dev
+generate = cli:generate
+lint = cli:lint
+migrate = cli:migrate
+test = pytest:console_main
