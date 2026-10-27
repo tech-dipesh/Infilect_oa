@@ -1,7 +1,7 @@
 [project]
 name = "api"
 version = "0.1.0"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "dj-database-url>=3.1.2",
     "django>=6.1.2",
@@ -22,3 +22,15 @@ dev = [
     "pytest-env>=1.8.2",
     "ruff>=0.17.3",
 ]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+env = ["D:DB_URL=sqlite:///:memory:", "D:JWTKEY=test-key-for-pytest-only-0123456789"]
+
+[tool.ruff]
+line-length = 140
+extend-exclude = ["products/migrations"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E701"]
