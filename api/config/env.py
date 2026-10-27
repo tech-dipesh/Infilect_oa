@@ -1,0 +1,15 @@
+import os
+import sys
+
+from dotenv import load_dotenv
+
+load_dotenv()
+missing = [key for key in ("DB_URL", "JWTKEY") if not os.environ.get(key)]
+if missing:
+    print("please enter these env keys, they are missing and the server won't work:", missing)
+    sys.exit(1)
+DB_URL = os.environ["DB_URL"]
+JWTKEY = os.environ["JWTKEY"]
+DEBUG = os.environ.get("DEBUG") == "1"
+HOSTS = os.environ.get("HOSTS", ".vercel.app,localhost,127.0.0.1").split(",")
+ORIGINS = os.environ.get("ORIGINS", "http://localhost:5173").split(",")
