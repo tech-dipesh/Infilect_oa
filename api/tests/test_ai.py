@@ -1,10 +1,12 @@
 import json
+from types import SimpleNamespace
 
 import pytest
 from django.core.management import call_command
 from rest_framework.test import APIClient
 
 from ai import llm
+from config import env
 from products.models import Product
 from tests.test_api import product, signup
 
@@ -63,3 +65,34 @@ def test_seed_is_repeatable():
     call_command("seed")
     call_command("seed")
     assert Product.objects.count() == 12
+
+
+def fake_client(create):
+    return SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))
+
+
+def test_ask_uses_json_mode_only_when_asked(monkeypatch):
+    calls = []
+
+    def create(**kwargs):
+        calls.append(kwargs)
+        return SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=" hi "))])
+
+    monkeypatch.setattr(llm, "client", fake_client(create))
+    assert llm.ask("system", "question") == "hi"
+    llm.ask("system", "question", json_mode=True)
+    assert "response_format" not in calls[0]
+    assert calls[1]["response_format"] == {"type": "json_object"}
+
+
+def test_provider_error_is_hidden_unless_debug(monkeypatch):
+    def create(**kwargs):
+        raise llm.OpenAIError("model not found")
+
+    monkeypatch.setattr(llm, "client", fake_client(create))
+    monkeypatch.setattr(env, "DEBUG", False)
+    hidden = APIClient().post("/api/ai/search/", {"query": "blue mug"})
+    assert hidden.status_code == 503 and "model not found" not in hidden.data["error"]
+    monkeypatch.setattr(env, "DEBUG", True)
+    shown = APIClient().post("/api/ai/search/", {"query": "blue mug"})
+    assert "model not found" in shown.data["error"]

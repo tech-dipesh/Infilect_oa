@@ -40,7 +40,7 @@ function Fields({ product }: { product: Product | null }) {
     setErrors({})
     setFormError("")
     try {
-      const { data } = await api.post<{ description: string }>("/ai/description/", { name: form.name, brand: form.brand, category: form.category })
+      const { data } = await api.post<{ description: string }>("/ai/description/", { name: form.name, brand: form.brand, category: form.category }, { timeout: 30000 })
       setForm((current) => ({ ...current, description: data.description }))
     } catch (err) {
       setFormError(errorText(err))

@@ -43,7 +43,7 @@ export default function Products() {
     setAsking(true)
     setAiError("")
     try {
-      const { data: filters } = await api.post<Record<string, string>>("/ai/search/", { query })
+      const { data: filters } = await api.post<Record<string, string>>("/ai/search/", { query }, { timeout: 30000 })
       setParams(filters)
     } catch (err) {
       setAiError(errorText(err))
