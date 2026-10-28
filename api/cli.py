@@ -23,3 +23,8 @@ def generate():
 
 def lint():
     run(sys.executable, "-m", "ruff", "check", ".")
+
+
+def seed():
+    if subprocess.call([*manage, "migrate"]): sys.exit(1)
+    run(*manage, "seed")
