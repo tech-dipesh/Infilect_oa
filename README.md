@@ -5,8 +5,8 @@
 
 Runs on Django API, React storefront, Groq on top.
 
-[![ci](https://img.shields.io/github/actions/workflow/status/tech-dipesh/REPO/ci.yml?label=ci)](https://github.com/tech-dipesh/Infilect_oa/actions)
-[![web](https://img.shields.io/website?url=https://infilect-chi.vercel.app =web)](https://infilect-chi.vercel.app)
+[![ci](https://img.shields.io/github/actions/workflow/status/tech-dipesh/Infilect_oa/ci.yml?label=ci)](https://github.com/tech-dipesh/Infilect_oa/actions)
+[![web](https://img.shields.io/website?url=https://infilect-chi.vercel.app&=web)](https://infilect-chi.vercel.app)
 [![api](https://img.shields.io/website?url=https://infilect-oa-api.vercel.app/api/docs/&label=api)](https://infilect-oa-api.vercel.app/api/docs/)
 
 Live app: https://infilect-chi.vercel.app | API docs (Swagger): https://infilect-oa-api.vercel.app/api/docs/ | Demo login: `dipu@infilect.com` / `dipu@123`
