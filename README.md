@@ -1,15 +1,15 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/logo_dark.svg">
-  <img alt="Catalog" src="docs/logo_light.svg">
+  <img alt="Infilect" src="docs/logo_light.svg">
 </picture>
 
 Runs on Django API, React storefront, Groq on top.
 
 [![ci](https://img.shields.io/github/actions/workflow/status/tech-dipesh/REPO/ci.yml?label=ci)](https://github.com/tech-dipesh/Infilect_oa/actions)
-[![web](https://img.shields.io/website?url=https%3A%2F%2FYOUR-WEB-URL&label=web)](https://infilect-web.vercel.app)
-[![api](https://img.shields.io/website?url=https%3A%2F%2FYOUR-API-URL%2Fapi%2Fproducts%2F&label=api)](https://infilect-api.vercel.app/api/docs/)
+[![web](https://img.shields.io/website?url=https%3A%2F%2FYOUR-WEB-URL&label=web)](https://infilect-chi.vercel.app)
+[![api](https://img.shields.io/website?url=https%3A%2F%2FYOUR-API-URL%2Fapi%2Fproducts%2F&label=api)](https://infilect-oa-api.vercel.app/api/docs/)
 
-Live app: https://YOUR-WEB-URL | API docs (Swagger): https://infilect-api.vercel.app/api/docs/| Demo login: `dipu@infilect.com` / `dipu@123`
+Live app: https://YOUR-WEB-URL | API docs (Swagger): https://infilect-oa-api.vercel.app/api/docs/ | Demo login: `dipu@infilect.com` / `dipu@123`
 
 ## What it does
 - Register and log in with JWT. Anyone can browse, only the creator can edit or delete a product.

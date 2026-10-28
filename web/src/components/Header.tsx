@@ -12,7 +12,7 @@ export function Header() {
   return (
     <header className="bg-primary text-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <Link to="/" className="text-2xl font-bold">Catalog</Link>
+        <Link to="/" className="text-2xl font-bold">Infilect</Link>
         <nav className="flex items-center gap-4">
           {user ? (
             <>
