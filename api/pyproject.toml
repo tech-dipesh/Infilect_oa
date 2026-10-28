@@ -10,8 +10,8 @@ dependencies = [
     "djangorestframework>=3.18.3",
     "djangorestframework-simplejwt>=5.5.1",
     "drf-spectacular>=0.30.0",
-    "groq>=1.7.0",
     "gunicorn>=26.2.0",
+    "openai>=3.40.0",
     "psycopg[binary]>=3.3.6",
     "python-dotenv>=1.2.4",
 ]
@@ -22,7 +22,7 @@ migrate = "cli:migrate"
 generate = "cli:generate"
 lint = "cli:lint"
 seed = "cli:seed"
-test = "pytest:test"
+test = "pytest:console_main"
 
 [build-system]
 requires = ["setuptools>=80"]

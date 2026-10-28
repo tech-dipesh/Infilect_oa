@@ -1,12 +1,17 @@
 import logging
 
-from groq import Groq, GroqError
+from openai import OpenAI, OpenAIError
 from rest_framework.exceptions import APIException
 
 from config import env
 
 log = logging.getLogger(__name__)
-client = Groq(api_key=env.GROQ_KEY, timeout=8, max_retries=1) if env.GROQ_KEY else None
+groq_url = "https://api.groq.com/openai/v1"
+groq_model = "llama-3.3-70b-versatile"
+configured = env.LLM_URL or env.GROQ_KEY
+settings = {"base_url": env.LLM_URL or groq_url, "api_key": env.GROQ_KEY or "local", "timeout": 30 if env.LLM_URL else 8, "max_retries": 1}
+client = OpenAI(**settings) if configured else None
+model = env.MODEL if env.LLM_URL else groq_model
 
 
 class AIUnavailable(APIException):
@@ -15,16 +20,12 @@ class AIUnavailable(APIException):
 
 
 def ask(system: str, prompt: str, json_mode: bool = False, max_tokens: int = 300) -> str:
-    if not client: raise AIUnavailable("AI is not configured, set GROQ_KEY on the server")
+    if not client: raise AIUnavailable("AI is not configured, set GROQ_KEY (or LLM_URL and MODEL) on the server")
+    extra = {"response_format": {"type": "json_object"}} if json_mode else {}
+    messages = [{"role": "system", "content": system}, {"role": "user", "content": prompt}]
     try:
-        res = client.chat.completions.create(
-            model=env.MODEL,
-            messages=[{"role": "system", "content": system}, {"role": "user", "content": prompt}],
-            temperature=0.3,
-            max_tokens=max_tokens,
-            response_format={"type": "json_object"} if json_mode else None,
-        )
-    except GroqError as err:
-        log.warning("groq call failed: %s", err)
-        raise AIUnavailable from err
+        res = client.chat.completions.create(model=model, messages=messages, temperature=0.3, max_tokens=max_tokens, **extra)
+    except OpenAIError as err:
+        log.warning("llm call failed: %s", err)
+        raise AIUnavailable(f"AI call failed: {err}" if env.DEBUG else None) from err
     return (res.choices[0].message.content or "").strip()
