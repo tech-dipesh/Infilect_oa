@@ -6,16 +6,50 @@
 Runs on Django API, React storefront, Groq on top.
 
 [![ci](https://img.shields.io/github/actions/workflow/status/tech-dipesh/REPO/ci.yml?label=ci)](https://github.com/tech-dipesh/Infilect_oa/actions)
-[![web](https://img.shields.io/website?url=https%3A%2F%2FYOUR-WEB-URL&label=web)](https://infilect-chi.vercel.app)
-[![api](https://img.shields.io/website?url=https%3A%2F%2FYOUR-API-URL%2Fapi%2Fproducts%2F&label=api)](https://infilect-oa-api.vercel.app/api/docs/)
+[![web](https://img.shields.io/website?url=https://infilect-chi.vercel.app =web)](https://infilect-chi.vercel.app)
+[![api](https://img.shields.io/website?url=https://infilect-oa-api.vercel.app/api/docs/&label=api)](https://infilect-oa-api.vercel.app/api/docs/)
 
-Live app: https://YOUR-WEB-URL | API docs (Swagger): https://infilect-oa-api.vercel.app/api/docs/ | Demo login: `dipu@infilect.com` / `dipu@123`
+Live app: https://infilect-chi.vercel.app | API docs (Swagger): https://infilect-oa-api.vercel.app/api/docs/ | Demo login: `dipu@infilect.com` / `dipu@123`
+
+## Project overview
+api/: Django REST Framework. JWT login, product CRUD, search, category filter, sorting, pagination. Only the creator can edit or delete a product.
+web/: React 19, Vite, TypeScript, Tailwind v4, Axios. Login, list, details, add, edit, delete, with loading, empty and error states.
+AI: "Generate description" on the product form, and "Ask AI" search that turns a sentence into filters. Groq in production, a local Ollama model in development.
+Data: PostgreSQL (Neon) in production, SQLite locally. Hosted on Vercel.
 
 ## What it does
 - Register and log in with JWT. Anyone can browse, only the creator can edit or delete a product.
 - Product list with search, category filter, sorting and 12 per page. Details page, add, edit and delete.
 - Loading, empty and error states on every screen, responsive from phone to desktop.
 - Two Groq features: generate a product description, and search in plain language ("cheap shoes under 4000").
+
+
+## Environment variables
+
+api (`api/.env`)
+
+| Key | Needed | Notes |
+| --- | --- | --- |
+| `JWTKEY` | yes | Long random string, 32+ characters. |
+| `DB_URL` | production | Postgres url. With `DEBUG=1` and no `DB_URL` it uses `db.sqlite3`. |
+| `DEBUG` | no | `1` locally only. Also shows the real AI error in responses. |
+| `ORIGINS` | production | Web url for CORS, no trailing slash. Default `http://localhost:5173`. |
+| `HOSTS` | no | Default covers `localhost` and `.vercel.app`. |
+| `GROQ_KEY` | for AI | Groq key, used when `LLM_URL` is not set. |
+| `LLM_URL` | no | Local server such as Ollama, `http://localhost:11434/v1`. Wins over Groq. |
+| `MODEL` | with `LLM_URL` | Local model name, for example `qwen2.5:3b`. |
+
+web (`web/.env`): `VITE_SERVER_URL`, the api base url. Default `http://localhost:8000/api`.
+
+## Deployment
+
+Vercel for both apps, Neon for Postgres.
+
+1. Neon: copy the connection string (`sslmode=require`). In `api` run `DB_URL="that-string" uv run seed` to create the tables and demo data (`dipu@infilect.com` / `dipu@123`).
+2. Vercel project for the api, Root Directory `api`. Set `JWTKEY`, `DB_URL`, `GROQ_KEY` and `ORIGINS` before the first deploy. Do not set `DEBUG`, `LLM_URL` or `MODEL`.
+3. Vercel project for the web app, Root Directory `web`. Set `VITE_SERVER_URL=https://infilect-oa-api.vercel.app/api`.
+4. Set the api's `ORIGINS` to the web url and redeploy.
+
 
 ## Stack
 
@@ -51,9 +85,9 @@ cd web && cp .env.example .env && pnpm i
 pnpm dev
 ```
 
-The api is on the  http://localhost:8000 and the app on http://localhost:5173. `seed` adds the demo user and 12 sample products, and can be run again safely. Groq api need to run it.
+The api is on the  http://localhost:8000 and the app on http://localhost:5173. `seed` adds the demo user and 12 sample products, and can be run again safely.
 
-Or run the api and Postgres in Docker: `GROQ_KEY=Add-Here docker compose up --build`
+Or run the api and Postgres in Docker: `GROQ_KEY=APIKEY docker compose up --build`
 
 Scripts in `api`: `uv run dev`, `migrate`, `generate` (makemigrations), `seed`, `lint`, `test`. In `web`: `pnpm dev`, `build`, `lint`, `type`.
 ## Decision:
