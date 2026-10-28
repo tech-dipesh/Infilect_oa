@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "accounts",
     "products",
+    "ai",
 ]
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -40,6 +41,7 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 12,
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "EXCEPTION_HANDLER": "config.errors.handler",
+    "DEFAULT_THROTTLE_RATES": {"ai": "20/min"},
 }
 SIMPLE_JWT = {"ACCESS_TOKEN_LIFETIME": timedelta(minutes=30), "REFRESH_TOKEN_LIFETIME": timedelta(days=7)}
 SPECTACULAR_SETTINGS = {"TITLE": "Product Catalog API", "VERSION": "1.0.0", "SERVE_INCLUDE_SCHEMA": False}
