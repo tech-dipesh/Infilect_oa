@@ -4,4 +4,4 @@ generate = cli:generate
 lint = cli:lint
 migrate = cli:migrate
 seed = cli:seed
-test = pytest:test
+test = pytest:console_main

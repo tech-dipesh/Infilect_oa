@@ -63,8 +63,10 @@ def test_ai_is_503_when_key_missing(monkeypatch):
 
 def test_seed_is_repeatable():
     call_command("seed")
+    Product.objects.update(image_url="https://example.com/old.jpg")
     call_command("seed")
     assert Product.objects.count() == 12
+    assert not Product.objects.filter(image_url="https://example.com/old.jpg").exists()
 
 
 def fake_client(create):
