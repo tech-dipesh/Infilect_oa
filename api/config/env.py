@@ -14,3 +14,5 @@ DB_URL = os.environ["DB_URL"]
 JWTKEY = os.environ["JWTKEY"]
 HOSTS = os.environ.get("HOSTS", ".vercel.app,localhost,127.0.0.1").split(",")
 ORIGINS = os.environ.get("ORIGINS", "http://localhost:5173").split(",")
+GROQ_KEY = os.environ.get("GROQ_KEY")
+MODEL = os.environ.get("MODEL", "llama-3.3-70b-versatile")
