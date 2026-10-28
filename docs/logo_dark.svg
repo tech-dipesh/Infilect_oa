@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="56" viewBox="0 0 220 56" role="img" aria-label="Catalog">
+  <rect x="4" y="8" width="40" height="40" rx="10" fill="#fdbd32"/>
+  <path d="M16 24l12-6 12 6v12l-12 6-12-6zM16 24l12 6 12-6M28 30v12" fill="none" stroke="#131445" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="56" y="37" font-family="Titillium Web, Arial, sans-serif" font-size="28" font-weight="700" fill="#ffffff">Infilect</text>
+</svg>
