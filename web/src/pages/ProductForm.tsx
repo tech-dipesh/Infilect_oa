@@ -33,6 +33,20 @@ function Fields({ product }: { product: Product | null }) {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [formError, setFormError] = useState("")
   const [saving, setSaving] = useState(false)
+  const [writing, setWriting] = useState(false)
+  const ready = Boolean(form.name && form.brand && form.category)
+  const generate = async () => {
+    setWriting(true)
+    setErrors({})
+    setFormError("")
+    try {
+      const { data } = await api.post<{ description: string }>("/ai/description/", { name: form.name, brand: form.brand, category: form.category })
+      setForm((current) => ({ ...current, description: data.description }))
+    } catch (err) {
+      setFormError(errorText(err))
+    }
+    setWriting(false)
+  }
   const submit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
     setSaving(true)
@@ -54,6 +68,10 @@ function Fields({ product }: { product: Product | null }) {
       {fields.map((field) => (
         <Field key={field.name} {...field} value={form[field.name as keyof typeof form]} error={errors[field.name]} onChange={(e) => setForm({ ...form, [e.target.name]: e.target.value })} />
       ))}
+      <div className="flex items-center gap-3">
+        <Button variant="outline" onClick={generate} disabled={!ready || writing}>{writing ? "Writing..." : "Generate description"}</Button>
+        {!ready && <span className="text-sm text-muted">Enter name, brand and category first</span>}
+      </div>
       <datalist id="categories">{categories?.map((name) => <option key={name} value={name} />)}</datalist>
       {formError && <p role="alert" className="text-danger">{formError}</p>}
       <div className="flex gap-3">

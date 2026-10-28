@@ -1,4 +1,3 @@
-README.md
 cli.py
 pyproject.toml
 api.egg-info/PKG-INFO
@@ -7,4 +6,5 @@ api.egg-info/dependency_links.txt
 api.egg-info/entry_points.txt
 api.egg-info/requires.txt
 api.egg-info/top_level.txt
+tests/test_ai.py
 tests/test_api.py
